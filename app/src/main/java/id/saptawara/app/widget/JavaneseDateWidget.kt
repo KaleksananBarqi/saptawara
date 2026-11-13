@@ -1,12 +1,15 @@
 package id.saptawara.app.widget
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
+import androidx.glance.Image
+import androidx.glance.ImageProvider
 import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
@@ -39,7 +42,7 @@ import id.saptawara.app.calendar.JavaneseDateInfo
  * Nothing OS: monokromatis industrialis, sudut membulat 20dp, font monospace,
  * dan aksen dot merah (#D71921).
  */
-class JavaneseDateWidget : GlanceAppWidget() {
+class JavaneseDateWidget : GlanceAppWidget(errorUiLayout = R.layout.glance_default_loading_layout) {
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         // Hitung informasi kalender Jawa & Masehi hari ini
@@ -52,19 +55,28 @@ class JavaneseDateWidget : GlanceAppWidget() {
         }
     }
 
+    override fun onCompositionError(
+        context: Context,
+        glanceId: GlanceId,
+        appWidgetId: Int,
+        throwable: Throwable
+    ) {
+        super.onCompositionError(context, glanceId, appWidgetId, throwable)
+        Log.e("JavaneseDateWidget", "Error saat komposisi widget: ${throwable.message}", throwable)
+    }
+
     @androidx.compose.runtime.Composable
     private fun WidgetContent(info: JavaneseDateInfo) {
         val white = Color(0xFFFFFFFF)
         val lightGray = Color(0xFFE0E0E0)
         val mutedText = Color(0x99FFFFFF)
-        val accentRed = Color(0xFFD71921)
         val dividerColor = Color(0x22FFFFFF)
 
-        // Kontainer utama dengan background glassmorphism gelap dan border
+        // Kontainer utama dengan background glassmorphism gelap dan border via ImageProvider
         Box(
             modifier = GlanceModifier
                 .fillMaxSize()
-                .background(R.drawable.widget_background)
+                .background(ImageProvider(R.drawable.widget_background))
                 .cornerRadius(20.dp)
                 .padding(16.dp)
                 .clickable(actionStartActivity<MainActivity>()),
@@ -91,13 +103,12 @@ class JavaneseDateWidget : GlanceAppWidget() {
 
                     Spacer(modifier = GlanceModifier.width(8.dp))
 
-                    // Titik Merah Ikonik Nothing OS (#D71921)
-                    Box(
-                        modifier = GlanceModifier
-                            .size(7.dp)
-                            .cornerRadius(4.dp)
-                            .background(ColorProvider(day = accentRed, night = accentRed))
-                    ) {}
+                    // Titik Merah Ikonik Nothing OS (#D71921) menggunakan ImageProvider oval drawable
+                    Image(
+                        provider = ImageProvider(R.drawable.red_indicator_dot),
+                        contentDescription = null,
+                        modifier = GlanceModifier.size(8.dp)
+                    )
                 }
 
                 Spacer(modifier = GlanceModifier.height(4.dp))

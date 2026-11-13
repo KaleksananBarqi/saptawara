@@ -4,6 +4,15 @@ Semua perubahan penting pada proyek **saptawara** akan didokumentasikan dalam be
 
 ---
 
+## [1.0.1] - 2026-11-13
+
+### 🐛 Diperbaiki (Fixed)
+- **Perbaikan Crash "Tidak dapat memuat widget"**: Memperbaiki pemanggilan background XML drawable pada Jetpack Glance (`JavaneseDateWidget.kt`) dengan membungkus `R.drawable.widget_background` menggunakan `ImageProvider`. Sebelumnya pemanggilan langsung menyebabkan `Resources$NotFoundException` karena Glance memperlakukannya sebagai `@ColorRes`.
+- **Indikator Titik Merah Ikonik Nothing OS**: Mengganti `Box` sudut lengkung manual dengan `Image(provider = ImageProvider(R.drawable.red_indicator_dot))` agar titik merah `#D71921` ter-render sempurna sebagai lingkaran di seluruh launcher Android.
+- **Handling Error Komposisi**: Menambahkan layout fallback `errorUiLayout` dan override `onCompositionError` untuk memudahkan pencatatan log jika terjadi kendala pada Glance.
+
+---
+
 ## [1.0.0] - 2026-11-13
 
 ### 🚀 Ditambahkan (Added)

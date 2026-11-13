@@ -1,0 +1,67 @@
+name: Build & Release APK
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Release APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Grant Execute Permission to Gradlew
+        run: chmod +x ./gradlew
+
+      - name: Run Unit Tests
+        run: ./gradlew testReleaseUnitTest --stacktrace
+
+      - name: Build Release APK
+        run: ./gradlew assembleRelease --stacktrace
+
+      - name: Prepare APK Asset
+        id: prepare_apk
+        run: |
+          APK_PATH=$(find app/build/outputs/apk/release -name "*.apk" | head -n 1)
+          if [ -z "$APK_PATH" ]; then
+            echo "Error: File APK release tidak ditemukan!"
+            exit 1
+          fi
+          
+          VERSION_TAG="${GITHUB_REF_NAME:-latest}"
+          TARGET_NAME="saptawara-${VERSION_TAG}.apk"
+          cp "$APK_PATH" "$TARGET_NAME"
+          echo "apk_path=$TARGET_NAME" >> $GITHUB_OUTPUT
+          echo "APK berhasil disiapkan di: $TARGET_NAME"
+
+      - name: Upload APK Artifact to Actions
+        uses: actions/upload-artifact@v4
+        with:
+          name: saptawara-apk
+          path: ${{ steps.prepare_apk.outputs.apk_path }}
+          retention-days: 30
+
+      - name: Upload APK to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.prepare_apk.outputs.apk_path }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -54,6 +54,12 @@ class JavaneseDateWidget : GlanceAppWidget() {
 
     @androidx.compose.runtime.Composable
     private fun WidgetContent(info: JavaneseDateInfo) {
+        val white = Color(0xFFFFFFFF)
+        val lightGray = Color(0xFFE0E0E0)
+        val mutedText = Color(0x99FFFFFF)
+        val accentRed = Color(0xFFD71921)
+        val dividerColor = Color(0x22FFFFFF)
+
         // Kontainer utama dengan background glassmorphism gelap dan border
         Box(
             modifier = GlanceModifier
@@ -76,7 +82,7 @@ class JavaneseDateWidget : GlanceAppWidget() {
                     Text(
                         text = info.dayPasaran.uppercase(),
                         style = TextStyle(
-                            color = ColorProvider(Color(0xFFFFFFFF)),
+                            color = ColorProvider(day = white, night = white),
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = FontFamily.SansSerif
@@ -90,7 +96,7 @@ class JavaneseDateWidget : GlanceAppWidget() {
                         modifier = GlanceModifier
                             .size(7.dp)
                             .cornerRadius(4.dp)
-                            .background(ColorProvider(Color(0xFFD71921)))
+                            .background(ColorProvider(day = accentRed, night = accentRed))
                     ) {}
                 }
 
@@ -100,7 +106,7 @@ class JavaneseDateWidget : GlanceAppWidget() {
                 Text(
                     text = info.masehiDate,
                     style = TextStyle(
-                        color = ColorProvider(Color(0xFFE0E0E0)),
+                        color = ColorProvider(day = lightGray, night = lightGray),
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Medium,
                         fontFamily = FontFamily.Monospace
@@ -114,7 +120,7 @@ class JavaneseDateWidget : GlanceAppWidget() {
                     modifier = GlanceModifier
                         .fillMaxWidth()
                         .height(1.dp)
-                        .background(ColorProvider(Color(0x22FFFFFF)))
+                        .background(ColorProvider(day = dividerColor, night = dividerColor))
                 ) {}
 
                 Spacer(modifier = GlanceModifier.height(8.dp))
@@ -123,7 +129,7 @@ class JavaneseDateWidget : GlanceAppWidget() {
                 Text(
                     text = info.secondaryText,
                     style = TextStyle(
-                        color = ColorProvider(Color(0x99FFFFFF)),
+                        color = ColorProvider(day = mutedText, night = mutedText),
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Normal,
                         fontFamily = FontFamily.Monospace

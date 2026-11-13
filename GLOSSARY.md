@@ -35,3 +35,11 @@ _Avoid_: Dekade, Lustrum.
 **Nothing OS Aesthetic**:
 Bahasa visual industrialis modern yang ditandai dengan latar belakang monokromatik gelap semi-transparan (`#CC0D0D0D`), border halus 1dp (`#33FFFFFF`), sudut membulat 20dp, tipografi monospace, dan aksen titik merah ikonik (`#D71921`).
 _Avoid_: Colorful material, Neumorphism, Skeuomorphism.
+
+**Tampilan Kotak (Square 2x2)**:
+Format tata letak widget padat berdimensi grid 2×2 (ukuran dasar `130dp × 130dp`) dengan susunan vertikal seimbang di mana penanggalan sekunder dipecah menjadi dua baris terpisah (Baris 1: Tahun Jawa Sultan Agung; Baris 2: Wuku & Neptu) agar tidak terpotong.
+_Avoid_: Widget kecil mini, Tampilan bujursangkar terpotong.
+
+**Tampilan Lebar (Wide 4x2)**:
+Format tata letak widget horizontal membentang berdimensi grid 4×2 (ukuran dasar `240dp × 90dp`) di mana seluruh informasi penanggalan sekunder ditampilkan dalam satu baris horizontal berkesinambungan.
+_Avoid_: Widget panjang, Full-screen banner.

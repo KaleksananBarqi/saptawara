@@ -4,6 +4,19 @@ Semua perubahan penting pada proyek **saptawara** akan didokumentasikan dalam be
 
 ---
 
+## [1.1.0] - 2026-11-13
+
+### 🚀 Ditambahkan (Added)
+- **Format Kotak 2x2 (Square) & Mode Responsif (`SizeMode.Responsive`)**:
+  - Menjadikan ukuran dasar widget default sebagai **2x2 cell** (`130dp × 130dp`) agar serasi dengan widget foto/kotak beranda Android.
+  - Memperkenalkan arsitektur *dual breakpoint* menggunakan Jetpack Glance `SizeMode.Responsive`: otomatis beralih antara tampilan padat 2x2 (`SquareWidgetContent`) dan tampilan membentang 4x2 (`WideWidgetContent`).
+  - Pemecahan baris informasi sekunder kalender Jawa (Baris 1: Tahun Sultan Agung, Baris 2: Wuku & Total Neptu) pada tampilan 2x2 agar teks tidak terpotong.
+  - Penyesuaian skala tipografi Weton (17sp) dan padding rapat (14dp) pada format kotak.
+- **Dokumentasi Keputusan Arsitektur**: Menambahkan `docs/adr/0002-widget-responsif-ukuran-kotak-dan-lebar.md`.
+- **Glosarium Domain**: Penambahan istilah kanonik `Tampilan Kotak (Square 2x2)` dan `Tampilan Lebar (Wide 4x2)` pada `GLOSSARY.md`.
+
+---
+
 ## [1.0.1] - 2026-11-13
 
 ### 🐛 Diperbaiki (Fixed)
